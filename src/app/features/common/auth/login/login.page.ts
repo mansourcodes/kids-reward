@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   IonContent,
   IonCard,
@@ -12,6 +12,7 @@ import {
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+// import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     IonText,
     CommonModule,
     FormsModule,
+    RouterModule,
   ],
 })
 export class LoginPage {
