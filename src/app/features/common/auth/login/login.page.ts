@@ -16,7 +16,7 @@ export class LoginPage {
   error = '';
   loading = false;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(public auth: AuthService, private router: Router) {}
 
   async login() {
     this.loading = true;
