@@ -11,11 +11,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../kids-list/kids-list.page').then((m) => m.KidsListPage),
       },
-      {
-        path: 'tab2',
-        loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
-      },
+
       {
         path: 'profile',
         loadComponent: () =>
