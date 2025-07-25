@@ -1,34 +1,14 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
-import {
-  IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardContent,
-  IonButton,
-  IonInput,
-  IonText,
-} from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// import { IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  imports: [
-    IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardContent,
-    IonButton,
-    IonInput,
-    IonText,
-    CommonModule,
-    FormsModule,
-    RouterModule,
-  ],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class LoginPage {
   email = '';

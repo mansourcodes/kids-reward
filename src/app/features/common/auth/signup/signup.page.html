@@ -1,13 +1,18 @@
 <ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sign Up</ion-title>
+  </ion-toolbar>
+
   <ion-card>
-    <ion-card-header>Sign Up</ion-card-header>
     <ion-card-content>
       <ion-input
         type="email"
         label="Email"
         [(ngModel)]="email"
         placeholder="you@example.com"
-        fill="outline"
       ></ion-input>
 
       <ion-input
@@ -15,7 +20,6 @@
         label="Password"
         [(ngModel)]="password"
         placeholder="Enter a strong password"
-        fill="outline"
       ></ion-input>
 
       <ion-button expand="block" (click)="signup()" [disabled]="loading">
