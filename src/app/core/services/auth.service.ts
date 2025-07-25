@@ -23,22 +23,8 @@ export class AuthService {
     await supabase.auth.signInWithOAuth({
       provider: 'apple',
       options: {
-        redirectTo: 'com.mansourcodes.kidsreward://login-callback',
+        redirectTo: 'https://rxewsqitjlqnghfghbvi.supabase.co/auth/v1/callback',
       },
-    });
-  }
-
-  async signInWithGoogle() {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: 'com.mansourcodes.kidsreward://login-callback', // Must match Info.plist
-      },
-    });
-
-    // Open Supabase OAuth in system browser
-    await Browser.open({
-      url: 'https://your-supabase-url.com/auth/v1/authorize?...',
     });
   }
 

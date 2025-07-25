@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Child</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addKidForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Child's Name</ion-label>
+      <ion-input formControlName="name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        hidden
+        #fileInput
+      />
+      <ion-button expand="block" fill="clear" (click)="fileInput.click()">
+        <ion-icon slot="start" name="image"></ion-icon>
+        Select Profile Picture
+      </ion-button>
+    </ion-item>
+
+    @if (previewUrl) {
+    <div class="image-preview">
+      <img [src]="previewUrl" alt="Preview" />
+    </div>
+    }
+
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="addKidForm.invalid || !selectedFile || loading"
+    >
+      @if (loading) {
+      <ion-spinner></ion-spinner>
+      } @else {
+      <span>Add Child</span>
+      }
+    </ion-button>
+  </form>
+</ion-content>
