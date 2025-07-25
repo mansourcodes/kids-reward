@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Tab 1 </ion-title>
+    <ion-title>My Kids</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,11 +10,26 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">My Kids</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  @if (loading) {
+  <div class="loading-container">
+    <ion-spinner></ion-spinner>
+  </div>
+  } @else {
+  <ion-grid>
+    <ion-row>
+      @for (kid of kids; track kid) {
+      <ion-col size="12" size-md="6" size-lg="4">
+        <app-kid-card [kid]="kid"></app-kid-card>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+  }
 </ion-content>

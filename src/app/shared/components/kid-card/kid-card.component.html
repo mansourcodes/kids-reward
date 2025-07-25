@@ -1,0 +1,19 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{ kid.name }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    @if (kid.profile_picture_url) {
+    <img
+      [src]="kid.profile_picture_url"
+      alt="Profile picture"
+      class="profile-pic"
+    />
+    } @else {
+    <div class="placeholder-pic">
+      <ion-icon name="person" size="large"></ion-icon>
+    </div>
+    }
+  </ion-card-content>
+</ion-card>

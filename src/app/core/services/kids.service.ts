@@ -49,4 +49,17 @@ export class KidsService {
 
     if (error) throw error;
   }
+
+  async getKidsByUser(userId: string): Promise<any[]> {
+    const { data, error } = await supabase
+      .from('kids')
+      .select('*')
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+
+    return data || [];
+  }
 }
