@@ -17,6 +17,10 @@ export const routes: Routes = [
   },
   {
     path: 'add-kid',
-    loadComponent: () => import('./features/app-specific/add-kid/add-kid.page').then( m => m.AddKidPage)
+    loadComponent: () =>
+      import('./features/app-specific/add-kid/add-kid.page').then(
+        (m) => m.AddKidPage
+      ),
+    canActivate: [authGuard],
   },
 ];
