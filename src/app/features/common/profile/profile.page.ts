@@ -5,12 +5,12 @@ import {
   IonTitle,
   IonContent,
 } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { ExploreContainerComponent } from '../../../shared/components/explore-container/explore-container.component';
 
 @Component({
-  selector: 'app-kids-list',
-  templateUrl: 'kids-list.page.html',
-  styleUrls: ['kids-list.page.scss'],
+  selector: 'app-profile',
+  templateUrl: 'profile.page.html',
+  styleUrls: ['profile.page.scss'],
   imports: [
     IonHeader,
     IonToolbar,
@@ -19,6 +19,6 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
     ExploreContainerComponent,
   ],
 })
-export class KidsListPage {
+export class ProfilePage {
   constructor() {}
 }
