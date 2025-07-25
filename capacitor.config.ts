@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.mansourcodes.kidsreward',
   appName: 'Kids Reward',
-  webDir: 'www'
+  webDir: 'www',
 };
 
 export default config;
