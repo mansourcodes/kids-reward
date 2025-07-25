@@ -1,0 +1,29 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>Sign Up</ion-card-header>
+    <ion-card-content>
+      <ion-input
+        type="email"
+        label="Email"
+        [(ngModel)]="email"
+        placeholder="you@example.com"
+        fill="outline"
+      ></ion-input>
+
+      <ion-input
+        type="password"
+        label="Password"
+        [(ngModel)]="password"
+        placeholder="Enter a strong password"
+        fill="outline"
+      ></ion-input>
+
+      <ion-button expand="block" (click)="signup()" [disabled]="loading">
+        {{ loading ? 'Creating account...' : 'Sign Up' }}
+      </ion-button>
+
+      <ion-text color="success" *ngIf="success">{{ success }}</ion-text>
+      <ion-text color="danger" *ngIf="error">{{ error }}</ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
