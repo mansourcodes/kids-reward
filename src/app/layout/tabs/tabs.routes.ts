@@ -17,7 +17,7 @@ export const routes: Routes = [
       {
         path: 'profile',
         loadComponent: () =>
-          import('../../features/common/profile/profile.page').then(
+          import('../../features/common/auth/profile/profile.page').then(
             (m) => m.ProfilePage
           ),
       },

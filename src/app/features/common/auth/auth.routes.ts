@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginPage } from './login/login.page';
 import { SignupPage } from './signup/signup.page';
+import { ProfilePage } from './profile/profile.page';
 
 export const authRoutes: Routes = [
   {
@@ -10,5 +11,9 @@ export const authRoutes: Routes = [
   {
     path: 'signup',
     component: SignupPage,
+  },
+  {
+    path: 'profile',
+    component: ProfilePage,
   },
 ];

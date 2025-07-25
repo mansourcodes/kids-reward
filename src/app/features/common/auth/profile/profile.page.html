@@ -1,0 +1,21 @@
+<ion-content>
+  <ion-card *ngIf="user">
+    <ion-card-header>
+      <ion-card-title>User Profile</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>User ID:</strong> {{ user.id }}</p>
+
+      <ion-button expand="block" color="danger" (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!user">
+    <ion-card-content>
+      <ion-text color="medium">No user is currently logged in.</ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
