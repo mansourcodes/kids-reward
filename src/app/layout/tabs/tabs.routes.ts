@@ -9,13 +9,17 @@ export const routes: Routes = [
       {
         path: 'kids-list',
         loadComponent: () =>
-          import('../../features/app-specific/kids-list/kids-list.page').then((m) => m.KidsListPage),
+          import('../../features/app-specific/kids-list/kids-list.page').then(
+            (m) => m.KidsListPage
+          ),
       },
 
       {
         path: 'profile',
         loadComponent: () =>
-          import('../../features/common/profile/profile.page').then((m) => m.ProfilePage),
+          import('../../features/common/profile/profile.page').then(
+            (m) => m.ProfilePage
+          ),
       },
       {
         path: '',
