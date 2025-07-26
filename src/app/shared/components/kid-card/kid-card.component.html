@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card (click)="addReward()">
   <ion-card-header>
     <ion-card-title>{{ kid.name }}</ion-card-title>
   </ion-card-header>
@@ -17,5 +17,17 @@
       class="profile-pic"
     />
     }
+
+    <div class="rewards-container">
+      @for (reward of rewards; track reward.id) {
+      <ion-button
+        [color]="reward.is_good ? 'success' : 'danger'"
+        size="small"
+        class="reward-button"
+      >
+        {{ reward.emoji }}
+      </ion-button>
+      }
+    </div>
   </ion-card-content>
 </ion-card>

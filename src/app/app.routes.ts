@@ -23,4 +23,12 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'add-reward/:kidId',
+    loadComponent: () =>
+      import('./features/app-specific/add-reward/add-reward.page').then(
+        (m) => m.AddRewardPage
+      ),
+    canActivate: [authGuard],
+  },
 ];

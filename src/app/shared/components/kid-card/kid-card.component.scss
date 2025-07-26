@@ -1,0 +1,20 @@
+.profile-pic {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.rewards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.reward-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  min-height: 28px;
+}

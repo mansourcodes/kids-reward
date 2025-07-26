@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Reward</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addRewardForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked">Emoji</ion-label>
+      <ion-select formControlName="emoji" interface="action-sheet">
+        @for (emoji of emojis; track emoji) {
+        <ion-select-option [value]="emoji">{{ emoji }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Type</ion-label>
+      <ion-select formControlName="is_good" interface="action-sheet">
+        <ion-select-option [value]="true">Good</ion-select-option>
+        <ion-select-option [value]="false">Bad</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="addRewardForm.invalid || loading"
+    >
+      @if (loading) {
+      <ion-spinner></ion-spinner>
+      } @else {
+      <span>Add Reward</span>
+      }
+    </ion-button>
+  </form>
+</ion-content>
