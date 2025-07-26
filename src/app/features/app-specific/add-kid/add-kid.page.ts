@@ -80,13 +80,13 @@ export class AddKidPage {
   }
 
   async onSubmit() {
-    if (this.addKidForm.invalid || !this.selectedFile) return;
+    if (this.addKidForm.invalid) return;
 
     this.loading = true;
     try {
       await this.kidsService.addKid({
         name: this.addKidForm.value.name,
-        profile_picture_file: this.selectedFile,
+        profile_picture_file: this.selectedFile ?? undefined,
       });
       this.router.navigate(['/tabs/kids-list']);
     } catch (error) {

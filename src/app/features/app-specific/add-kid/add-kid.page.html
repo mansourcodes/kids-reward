@@ -24,7 +24,7 @@
       />
       <ion-button expand="block" fill="clear" (click)="fileInput.click()">
         <ion-icon slot="start" name="image"></ion-icon>
-        Select Profile Picture
+        Select Profile Picture (Optional)
       </ion-button>
     </ion-item>
 
@@ -37,7 +37,7 @@
     <ion-button
       type="submit"
       expand="block"
-      [disabled]="addKidForm.invalid || !selectedFile || loading"
+      [disabled]="addKidForm.invalid || loading"
     >
       @if (loading) {
       <ion-spinner></ion-spinner>
