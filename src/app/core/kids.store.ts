@@ -49,13 +49,16 @@ export class KidsStore {
   async addReward(reward: Omit<Reward, 'id' | 'user_id' | 'created_at'>) {
     try {
       const newReward = await this.rewardService.addReward(reward);
+      console.log('newReward:', newReward);
+
       this.kids.update((kids) =>
         kids.map((kid) =>
-          kid.id === reward.kid_id
+          kid.id == reward.kid_id
             ? { ...kid, rewards: [...kid.rewards, newReward] }
             : kid
         )
       );
+      console.log('kids', this.kids());
     } catch (error) {
       console.error('Error adding reward:', error);
     }
