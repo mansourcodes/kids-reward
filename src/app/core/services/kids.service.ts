@@ -1,6 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { supabase } from './supabase.client';
+import { Reward } from './reward.service';
+
+export interface Kid {
+  id: string;
+  name: string;
+  profile_picture_url: string | null;
+  user_id: string;
+  rewards: Reward[];
+}
 
 interface KidProfile {
   name: string;
@@ -11,11 +20,9 @@ interface KidProfile {
   providedIn: 'root',
 })
 export class KidsService {
-  kidAdded = signal(0);
-
   constructor(private authService: AuthService) {}
 
-  async addKid(kid: KidProfile): Promise<void> {
+  async addKid(kid: KidProfile): Promise<Kid> {
     const session = await this.authService.getSession();
     if (!session || !session.data || !session.data.session) {
       throw new Error('User not authenticated');
@@ -43,28 +50,32 @@ export class KidsService {
       imageUrl = urlData?.publicUrl ?? null;
     }
 
-    const { error } = await supabase.from('kids').insert({
+    const { data, error } = await supabase.from('kids').insert({
       name: kid.name,
       profile_picture_url: imageUrl,
       user_id: user.id,
-    });
+    }).select(`
+        *,
+        rewards (*)
+      `);
 
     if (error) throw error;
 
-    // Update signal to notify listeners
-    this.kidAdded.update((count) => count + 1);
+    if (!data || data.length === 0) throw new Error('Failed to create kid');
+
+    return data[0] as Kid;
   }
 
-  async getKidsByUser(userId: string): Promise<any[]> {
+  async getKidsByUser(userId: string): Promise<Kid[]> {
     const { data, error } = await supabase
       .from('kids')
-      .select('*')
+      .select('*, rewards (*)')
       .eq('user_id', userId);
 
     if (error) {
       throw error;
     }
 
-    return data || [];
+    return (data as Kid[]) || [];
   }
 }

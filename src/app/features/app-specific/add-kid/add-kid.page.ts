@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { kidsStore } from '../../../core/store.signal';
+import { kidsStore } from '../../../core/kids.signal';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import {

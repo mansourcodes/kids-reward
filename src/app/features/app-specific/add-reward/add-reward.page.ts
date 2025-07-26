@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { kidsStore } from '../../../core/store.signal';
+import { kidsStore } from '../../../core/kids.signal';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
@@ -22,6 +22,7 @@ import {
   IonSelect,
   IonSelectOption,
 } from '@ionic/angular/standalone';
+import { Reward } from 'src/app/core/services/reward.service';
 
 @Component({
   selector: 'app-add-reward',
@@ -72,11 +73,13 @@ export class AddRewardPage {
     try {
       if (!this.kidId) return;
 
-      await kidsStore.addReward({
+      const reward: Omit<Reward, 'id' | 'user_id' | 'created_at'> = {
         kid_id: this.kidId,
         emoji: this.addRewardForm.value.emoji,
         is_good: this.addRewardForm.value.is_good,
-      });
+      };
+
+      await kidsStore.addReward(reward);
       this.router.navigate(['/tabs/kids-list']);
     } catch (error) {
       console.error('Error adding reward:', error);

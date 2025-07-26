@@ -20,7 +20,7 @@ import {
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { KidCardComponent } from '../../../shared/components/kid-card/kid-card.component';
-import { kidsStore } from '../../../core/store.signal';
+import { kidsStore } from '../../../core/kids.signal';
 
 @Component({
   selector: 'app-kids-list',
@@ -45,7 +45,7 @@ import { kidsStore } from '../../../core/store.signal';
 })
 export class KidsListPage {
   loading = true;
-  kids = computed(() => kidsStore.store().kids);
+  kids = kidsStore.kids;
 
   constructor() {
     // Load initial data
@@ -54,7 +54,7 @@ export class KidsListPage {
     // Watch for changes
     effect(() => {
       // Access the signal to establish dependency
-      const kids = kidsStore.store().kids;
+      const kids = kidsStore.kids;
       if (kids.length > 0) {
         this.loading = false;
       }

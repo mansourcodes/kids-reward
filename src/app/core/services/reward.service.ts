@@ -3,9 +3,12 @@ import { supabase } from './supabase.client';
 import { AuthService } from './auth.service';
 
 export interface Reward {
+  id: string;
   kid_id: string;
   emoji: string;
   is_good: boolean;
+  user_id: string;
+  created_at: string;
 }
 
 @Injectable({
@@ -16,24 +19,34 @@ export class RewardService {
 
   constructor(private authService: AuthService) {}
 
-  async addReward(reward: Reward): Promise<void> {
+  async addReward(
+    reward: Omit<Reward, 'id' | 'user_id' | 'created_at'>
+  ): Promise<Reward> {
     const session = await this.authService.getSession();
     if (!session?.data?.session?.user) {
       throw new Error('User not authenticated');
     }
+    const user = session.data.session.user;
 
-    const { error } = await supabase.from('rewards').insert({
-      ...reward,
-      user_id: session.data.session.user.id,
-    });
+    const { data, error } = await supabase
+      .from('rewards')
+      .insert({
+        ...reward,
+        user_id: user.id,
+      })
+      .select();
 
     if (error) throw error;
 
-    // Update signal to notify listeners
+    if (!data || data.length === 0) throw new Error('Failed to create reward');
+
+    // Notify subscribers that a new reward was added for this kid
     this.rewardAdded.set(reward.kid_id);
+
+    return data[0] as Reward;
   }
 
-  async getRewardsByKid(kidId: string): Promise<any[]> {
+  async getRewardsByKid(kidId: string): Promise<Reward[]> {
     const { data, error } = await supabase
       .from('rewards')
       .select('*')
@@ -44,6 +57,6 @@ export class RewardService {
       throw error;
     }
 
-    return data || [];
+    return (data as Reward[]) || [];
   }
 }
