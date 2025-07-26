@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -11,4 +12,12 @@ import { IonicModule } from '@ionic/angular';
 })
 export class KidCardComponent {
   @Input() kid: any;
+
+  constructor(private sanitizer: DomSanitizer) {}
+
+  getAvatarUrl(name: string): SafeUrl {
+    const encodedName = encodeURIComponent(name);
+    const url = `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodedName}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }

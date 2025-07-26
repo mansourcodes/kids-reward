@@ -11,9 +11,11 @@
       class="profile-pic"
     />
     } @else {
-    <div class="placeholder-pic">
-      <ion-icon name="person" size="large"></ion-icon>
-    </div>
+    <img
+      [src]="getAvatarUrl(kid.name)"
+      alt="Default avatar"
+      class="profile-pic"
+    />
     }
   </ion-card-content>
 </ion-card>
