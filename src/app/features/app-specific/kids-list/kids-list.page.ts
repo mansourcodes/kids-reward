@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, effect } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  linkedSignal,
+} from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -13,9 +19,8 @@ import {
   IonSpinner,
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
-import { KidsService } from '../../../core/services/kids.service';
-import { AuthService } from '../../../core/services/auth.service';
 import { KidCardComponent } from '../../../shared/components/kid-card/kid-card.component';
+import { kidsStore } from '../../../core/store.signal';
 
 @Component({
   selector: 'app-kids-list',
@@ -38,46 +43,30 @@ import { KidCardComponent } from '../../../shared/components/kid-card/kid-card.c
     KidCardComponent,
   ],
 })
-export class KidsListPage implements OnInit {
-  private initialLoadDone = false;
+export class KidsListPage {
+  loading = true;
+  kids = computed(() => kidsStore.store().kids);
 
   constructor() {
-    // Setup effect to reload kids when signal changes
+    // Load initial data
+    this.loadKids();
+
+    // Watch for changes
     effect(() => {
       // Access the signal to establish dependency
-      const count = this.kidsService.kidAdded();
-
-      // Skip the initial effect run
-      if (this.initialLoadDone) {
-        this.loadKids();
+      const kids = kidsStore.store().kids;
+      if (kids.length > 0) {
+        this.loading = false;
       }
     });
   }
-  private kidsService = inject(KidsService);
-  private authService = inject(AuthService);
 
-  kids: any[] = [];
-  loading = true;
-
-  async ngOnInit() {
-    await this.loadKids();
-    this.initialLoadDone = true;
-
-    // Trigger an initial signal update to establish the dependency
-    this.kidsService.kidAdded();
-  }
-
-  private async loadKids() {
+  async loadKids() {
     this.loading = true;
     try {
-      const session = await this.authService.getSession();
-      if (session?.data?.session?.user) {
-        const user = session.data.session.user;
-        this.kids = await this.kidsService.getKidsByUser(user.id);
-      }
+      await kidsStore.loadKids();
     } catch (error) {
       console.error('Error loading kids:', error);
-    } finally {
       this.loading = false;
     }
   }

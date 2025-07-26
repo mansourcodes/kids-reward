@@ -24,7 +24,7 @@
   } @else {
   <ion-grid>
     <ion-row>
-      @for (kid of kids; track kid) {
+      @for (kid of kids(); track kid) {
       <ion-col size="12" size-md="6" size-lg="4">
         <app-kid-card [kid]="kid"></app-kid-card>
       </ion-col>

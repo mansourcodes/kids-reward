@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { RewardService } from '../../../core/services/reward.service';
+import { kidsStore } from '../../../core/store.signal';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
@@ -46,7 +46,6 @@ import {
   ],
 })
 export class AddRewardPage {
-  private rewardService = inject(RewardService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -71,7 +70,9 @@ export class AddRewardPage {
 
     this.loading = true;
     try {
-      await this.rewardService.addReward({
+      if (!this.kidId) return;
+
+      await kidsStore.addReward({
         kid_id: this.kidId,
         emoji: this.addRewardForm.value.emoji,
         is_good: this.addRewardForm.value.is_good,

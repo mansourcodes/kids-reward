@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { KidsService } from '../../../core/services/kids.service';
+import { kidsStore } from '../../../core/store.signal';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import {
@@ -45,7 +45,6 @@ import {
   ],
 })
 export class AddKidPage {
-  private kidsService = inject(KidsService);
   private authService = inject(AuthService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
@@ -84,7 +83,8 @@ export class AddKidPage {
 
     this.loading = true;
     try {
-      await this.kidsService.addKid({
+      // Pass the selected file to the store
+      await kidsStore.addKid({
         name: this.addKidForm.value.name,
         profile_picture_file: this.selectedFile ?? undefined,
       });
