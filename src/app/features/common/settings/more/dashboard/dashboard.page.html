@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>More Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="none">
+    <ion-item-group>
+      <ion-item detail="true" routerLink="/settings/more/delete-account">
+        <ion-icon name="cog-outline" slot="start"></ion-icon>
+        <ion-label color="danger"> Delete My Account </ion-label>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

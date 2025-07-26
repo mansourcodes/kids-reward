@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { authRoutes } from './features/common/auth/auth.routes';
+import { settingsRoutes } from './features/common/settings/settings.routes';
 
 export const routes: Routes = [
   ...authRoutes,
+  ...settingsRoutes,
   {
     path: 'home',
     redirectTo: '',
@@ -30,5 +32,9 @@ export const routes: Routes = [
         (m) => m.AddRewardPage
       ),
     canActivate: [authGuard],
+  },
+  {
+    path: 'manage-kids',
+    loadComponent: () => import('./features/app-specific/manage-kids/manage-kids.page').then( m => m.ManageKidsPage)
   },
 ];

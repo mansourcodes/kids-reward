@@ -31,8 +31,6 @@ export class SignupPage {
       this.error = error.message;
     } else {
       this.success = 'Signup successful! Please check your email to confirm.';
-      // Optionally redirect:
-      // this.router.navigate(['/login']);
     }
   }
 }

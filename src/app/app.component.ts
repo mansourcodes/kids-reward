@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.auth.onAuthStateChanged((session) => {
       const user = session?.user;
-      this.router.navigateByUrl(user ? '/home' : '/login');
+      this.router.navigateByUrl(user ? '/home' : '/auth/login');
     });
   }
 }

@@ -22,6 +22,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'settings',
+        loadComponent: () =>
+          import(
+            '../../features/common/settings/dashboard/dashboard.page'
+          ).then((m) => m.DashboardPage),
+      },
+      {
         path: '',
         redirectTo: '/tabs/kids-list',
         pathMatch: 'full',
