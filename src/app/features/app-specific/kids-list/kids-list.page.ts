@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, effect } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -39,6 +39,20 @@ import { KidCardComponent } from '../../../shared/components/kid-card/kid-card.c
   ],
 })
 export class KidsListPage implements OnInit {
+  private initialLoadDone = false;
+
+  constructor() {
+    // Setup effect to reload kids when signal changes
+    effect(() => {
+      // Access the signal to establish dependency
+      const count = this.kidsService.kidAdded();
+
+      // Skip the initial effect run
+      if (this.initialLoadDone) {
+        this.loadKids();
+      }
+    });
+  }
   private kidsService = inject(KidsService);
   private authService = inject(AuthService);
 
@@ -46,6 +60,15 @@ export class KidsListPage implements OnInit {
   loading = true;
 
   async ngOnInit() {
+    await this.loadKids();
+    this.initialLoadDone = true;
+
+    // Trigger an initial signal update to establish the dependency
+    this.kidsService.kidAdded();
+  }
+
+  private async loadKids() {
+    this.loading = true;
     try {
       const session = await this.authService.getSession();
       if (session?.data?.session?.user) {

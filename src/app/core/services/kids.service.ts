@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 import { supabase } from './supabase.client';
 
@@ -11,6 +11,8 @@ interface KidProfile {
   providedIn: 'root',
 })
 export class KidsService {
+  kidAdded = signal(0);
+
   constructor(private authService: AuthService) {}
 
   async addKid(kid: KidProfile): Promise<void> {
@@ -48,6 +50,9 @@ export class KidsService {
     });
 
     if (error) throw error;
+
+    // Update signal to notify listeners
+    this.kidAdded.update((count) => count + 1);
   }
 
   async getKidsByUser(userId: string): Promise<any[]> {
