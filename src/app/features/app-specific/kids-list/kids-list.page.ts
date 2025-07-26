@@ -14,8 +14,8 @@ import {
   IonSpinner,
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
-import { KidCardComponent } from '../../../shared/components/kid-card/kid-card.component';
 import { CommonModule } from '@angular/common';
+import { KidCardComponent } from '../components/kid-card/kid-card.component';
 
 @Component({
   selector: 'app-kids-list',

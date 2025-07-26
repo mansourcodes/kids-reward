@@ -20,13 +20,7 @@
 
     <div class="rewards-container">
       @for (reward of kid.rewards; track reward.id) {
-      <ion-button
-        [color]="reward.is_good ? 'success' : 'danger'"
-        size="small"
-        class="reward-button"
-      >
-        {{ reward.emoji }}
-      </ion-button>
+      <app-reward-card [reward]="reward"></app-reward-card>
       }
     </div>
   </ion-card-content>

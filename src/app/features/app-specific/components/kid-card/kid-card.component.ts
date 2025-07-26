@@ -12,13 +12,12 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Reward } from 'src/app/core/services/reward.service';
-import { Kid } from 'src/app/core/services/kids.service';
+import { RewardCardComponent } from '../reward-card/reward-card.component';
 
 @Component({
   selector: 'app-kid-card',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, RewardCardComponent],
   templateUrl: './kid-card.component.html',
   styleUrls: ['./kid-card.component.scss'],
 })
