@@ -1,10 +1,5 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  linkedSignal,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { KidsStore } from '../../../core/kids.store';
 import {
   IonHeader,
   IonToolbar,
@@ -20,7 +15,6 @@ import {
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { KidCardComponent } from '../../../shared/components/kid-card/kid-card.component';
-import { kidsStore } from '../../../core/kids.signal';
 
 @Component({
   selector: 'app-kids-list',
@@ -44,30 +38,13 @@ import { kidsStore } from '../../../core/kids.signal';
   ],
 })
 export class KidsListPage {
-  loading = true;
-  kids = kidsStore.kids;
+  private kidsStore = inject(KidsStore);
 
-  constructor() {
-    // Load initial data
-    this.loadKids();
+  // Expose store properties directly
+  kids = this.kidsStore.kids;
+  loading = this.kidsStore.loading;
 
-    // Watch for changes
-    effect(() => {
-      // Access the signal to establish dependency
-      const kids = kidsStore.kids;
-      if (kids.length > 0) {
-        this.loading = false;
-      }
-    });
-  }
-
-  async loadKids() {
-    this.loading = true;
-    try {
-      await kidsStore.loadKids();
-    } catch (error) {
-      console.error('Error loading kids:', error);
-      this.loading = false;
-    }
+  async ionViewWillEnter() {
+    await this.kidsStore.loadKids();
   }
 }

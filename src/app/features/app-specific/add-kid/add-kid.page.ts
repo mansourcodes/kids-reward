@@ -1,12 +1,11 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { KidsStore } from '../../../core/kids.store';
 import {
   FormGroup,
   FormControl,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { kidsStore } from '../../../core/kids.signal';
-import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import {
   IonContent,
@@ -45,9 +44,9 @@ import {
   ],
 })
 export class AddKidPage {
-  private authService = inject(AuthService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private kidsStore = inject(KidsStore);
 
   addKidForm: FormGroup;
   selectedFile: File | null = null;
@@ -84,7 +83,7 @@ export class AddKidPage {
     this.loading = true;
     try {
       // Pass the selected file to the store
-      await kidsStore.addKid({
+      await this.kidsStore.addKid({
         name: this.addKidForm.value.name,
         profile_picture_file: this.selectedFile ?? undefined,
       });
