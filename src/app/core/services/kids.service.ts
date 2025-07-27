@@ -78,4 +78,27 @@ export class KidsService {
 
     return (data as Kid[]) || [];
   }
+
+  async getKidById(kidId: string): Promise<Kid> {
+    const { data, error } = await supabase
+      .from('kids')
+      .select('*')
+      .eq('id', kidId)
+      .single();
+
+    if (error) throw error;
+    return data as Kid;
+  }
+
+  async updateKid(kid: Kid): Promise<void> {
+    const { error } = await supabase
+      .from('kids')
+      .update({
+        name: kid.name,
+        profile_picture_url: kid.profile_picture_url,
+      })
+      .eq('id', kid.id);
+
+    if (error) throw error;
+  }
 }

@@ -15,8 +15,6 @@ export interface Reward {
   providedIn: 'root',
 })
 export class RewardService {
-  rewardAdded = signal<string>(''); // kid_id for which a reward was added
-
   constructor(private authService: AuthService) {}
 
   async addReward(
@@ -39,9 +37,6 @@ export class RewardService {
     if (error) throw error;
 
     if (!data || data.length === 0) throw new Error('Failed to create reward');
-
-    // Notify subscribers that a new reward was added for this kid
-    this.rewardAdded.set(reward.kid_id);
 
     return data[0] as Reward;
   }
