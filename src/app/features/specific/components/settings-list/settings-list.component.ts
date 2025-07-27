@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-settings-list',
   templateUrl: './settings-list.component.html',
   styleUrls: ['./settings-list.component.scss'],
-  imports: [RouterModule, IonItem, IonIcon, IonLabel, IonItemGroup],
+  imports: [RouterModule, IonItem, IonIcon, IonLabel],
 })
 export class SettingsListComponent implements OnInit {
   constructor() {}

@@ -14,26 +14,13 @@
       <ion-input formControlName="name" type="text"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <input
-        type="file"
-        accept="image/*"
-        (change)="onFileSelected($event)"
-        hidden
-        #fileInput
-      />
-      <ion-button expand="block" fill="clear" (click)="fileInput.click()">
-        <ion-icon slot="start" name="image"></ion-icon>
-        Select Profile Picture (Optional)
-      </ion-button>
-    </ion-item>
+    <app-image-uploader
+      (onImageCropped)="handleCroppedImage($event)"
+    ></app-image-uploader>
 
-    @if (previewUrl) {
-    <div class="image-preview">
-      <img [src]="previewUrl" alt="Preview" />
-    </div>
+    @if(croppedImageUrl){
+    <ion-img [src]="croppedImageUrl"></ion-img>
     }
-
     <ion-button
       type="submit"
       expand="block"

@@ -25,8 +25,10 @@ import {
   IonItem,
   IonLabel,
   IonSpinner,
+  IonImg,
   IonIcon,
 } from '@ionic/angular/standalone';
+import { ImageUploaderComponent } from 'src/app/shared/components/image-uploader/image-uploader.component';
 
 @Component({
   selector: 'app-kid-form',
@@ -46,7 +48,8 @@ import {
     IonItem,
     IonLabel,
     IonSpinner,
-    IonIcon,
+    IonImg,
+    ImageUploaderComponent,
   ],
 })
 export class KidFormPage {
@@ -57,8 +60,8 @@ export class KidFormPage {
 
   kidId: string | null = null;
   addKidForm: FormGroup;
-  selectedFile: File | null = null;
-  previewUrl: string | ArrayBuffer | null = null;
+  croppedImageFile: File | null = null;
+  croppedImageUrl: string | ArrayBuffer | null = null;
   loading = false;
 
   is_edit_mode = false;
@@ -92,19 +95,16 @@ export class KidFormPage {
       });
     }
   }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
+  handleCroppedImage(croppedImageFile: File) {
+    if (croppedImageFile) {
       const reader = new FileReader();
       this.loading = true; // Show loading for the image preview
       reader.onload = (e) => {
-        this.previewUrl = e.target?.result ?? null;
+        this.croppedImageUrl = e.target?.result ?? null;
         this.cdr.markForCheck(); // Trigger change detection
         this.loading = false;
       };
-      reader.readAsDataURL(this.selectedFile);
+      reader.readAsDataURL(croppedImageFile);
     }
   }
 
@@ -116,7 +116,7 @@ export class KidFormPage {
       // Pass the selected file to the store
       await this.kidsStore.addKid({
         name: this.addKidForm.value.name,
-        profile_picture_file: this.selectedFile ?? undefined,
+        profile_picture_file: this.croppedImageFile ?? undefined,
       });
       this.router.navigate(['/tabs/kids-list']);
     } catch (error) {
