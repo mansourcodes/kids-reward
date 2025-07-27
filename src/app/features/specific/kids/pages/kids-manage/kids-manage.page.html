@@ -9,4 +9,15 @@
 
 <ion-content [fullscreen]="true">
   <!-- TODO : list of kids as ion-item routed to edit kid form -->
+
+  <ion-list>
+    @for (kid of kids(); track kid) {
+    <ion-item [routerLink]="['/kids/kid-form', kid.id]">
+      <ion-avatar slot="start" size="large">
+        <img [src]="getProfilePictureUrl(kid)" />
+      </ion-avatar>
+      <ion-label>{{ kid.name }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
 </ion-content>

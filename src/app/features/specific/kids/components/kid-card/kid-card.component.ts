@@ -14,6 +14,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RewardCardComponent } from '../reward-card/reward-card.component';
 import { Kid } from 'src/app/features/specific/kids/services/kids.service';
+import { AvatarUrlService } from 'src/app/shared/services/avatar-url.service';
 
 @Component({
   selector: 'app-kid-card',
@@ -25,17 +26,15 @@ import { Kid } from 'src/app/features/specific/kids/services/kids.service';
 export class KidCardComponent {
   @Input() kid: any;
   private router = inject(Router);
-  private sanitizer = inject(DomSanitizer);
+  private avatarUrlService = inject(AvatarUrlService);
 
   rewards = computed(() => this.kid().rewards);
 
   getProfilePictureUrl(kid: Kid): SafeUrl {
-    if (kid.profile_picture_url) {
-      return kid.profile_picture_url;
-    }
-    const encodedName = encodeURIComponent(kid.name);
-    const url = `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodedName}`;
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    return this.avatarUrlService.getAvatarUrl(
+      kid.profile_picture_url,
+      kid.name
+    );
   }
 
   addReward() {
