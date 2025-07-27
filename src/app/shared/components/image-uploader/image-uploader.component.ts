@@ -62,7 +62,6 @@ export class ImageUploaderComponent {
 
   confirm() {
     this.imageCropper.crop('blob')?.then((blob) => {
-      console.log('imageBlob', blob);
       if (blob?.blob) {
         const imageFile = new File([blob.blob], 'image.jpg', {
           type: blob.blob.type,

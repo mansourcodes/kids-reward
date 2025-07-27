@@ -96,6 +96,8 @@ export class KidFormPage {
     }
   }
   handleCroppedImage(croppedImageFile: File) {
+    this.croppedImageFile = croppedImageFile;
+
     if (croppedImageFile) {
       const reader = new FileReader();
       this.loading = true; // Show loading for the image preview
