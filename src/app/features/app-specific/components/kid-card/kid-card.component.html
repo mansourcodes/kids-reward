@@ -1,23 +1,14 @@
 <ion-card (click)="addReward()">
-  <ion-card-header>
-    <ion-card-title>{{ kid.name }}</ion-card-title>
-  </ion-card-header>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-avatar slot="start" size="large">
+        <img [src]="getProfilePictureUrl(kid)" />
+      </ion-avatar>
+      <ion-label>{{ kid.name }}</ion-label>
+    </ion-item>
+  </ion-list>
 
   <ion-card-content>
-    @if (kid.profile_picture_url) {
-    <img
-      [src]="kid.profile_picture_url"
-      alt="Profile picture"
-      class="profile-pic"
-    />
-    } @else {
-    <img
-      [src]="getAvatarUrl(kid.name)"
-      alt="Default avatar"
-      class="profile-pic"
-    />
-    }
-
     <div class="rewards-container">
       @for (reward of kid.rewards; track reward.id) {
       <app-reward-card [reward]="reward"></app-reward-card>

@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RewardCardComponent } from '../reward-card/reward-card.component';
+import { Kid } from 'src/app/core/services/kids.service';
 
 @Component({
   selector: 'app-kid-card',
@@ -28,8 +29,11 @@ export class KidCardComponent {
 
   rewards = computed(() => this.kid().rewards);
 
-  getAvatarUrl(name: string): SafeUrl {
-    const encodedName = encodeURIComponent(name);
+  getProfilePictureUrl(kid: Kid): SafeUrl {
+    if (kid.profile_picture_url) {
+      return kid.profile_picture_url;
+    }
+    const encodedName = encodeURIComponent(kid.name);
     const url = `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodedName}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }

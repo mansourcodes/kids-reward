@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { KidsStore } from '../../../core/kids.store';
 import {
   IonHeader,
@@ -16,6 +16,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { KidCardComponent } from '../components/kid-card/kid-card.component';
+import { addIcons } from 'ionicons';
+import { add } from 'ionicons/icons';
 
 @Component({
   selector: 'app-kids-list',
@@ -39,14 +41,18 @@ import { KidCardComponent } from '../components/kid-card/kid-card.component';
     CommonModule,
   ],
 })
-export class KidsListPage {
+export class KidsListPage implements OnInit {
   private kidsStore = inject(KidsStore);
 
   // Expose store properties directly
   kids = this.kidsStore.kids;
   loading = this.kidsStore.loading;
 
-  async ionViewWillEnter() {
+  constructor() {
+    addIcons({ add });
+  }
+
+  async ngOnInit() {
     await this.kidsStore.loadKids();
   }
 }
