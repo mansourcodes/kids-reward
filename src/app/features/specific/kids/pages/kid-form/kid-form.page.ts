@@ -23,9 +23,9 @@ import {
 } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-add-kid',
-  templateUrl: './add-kid.page.html',
-  styleUrls: ['./add-kid.page.scss'],
+  selector: 'app-kid-form',
+  templateUrl: './kid-form.page.html',
+  styleUrls: ['./kid-form.page.scss'],
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -43,7 +43,7 @@ import {
     IonIcon,
   ],
 })
-export class AddKidPage {
+export class KidFormPage {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private kidsStore = inject(KidsStore);

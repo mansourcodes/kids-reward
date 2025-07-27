@@ -6,9 +6,9 @@ export const kidsRoutes: Routes = [
     path: 'kids',
     children: [
       {
-        path: 'add-kid',
+        path: 'kid-form',
         loadComponent: () =>
-          import('./pages/add-kid/add-kid.page').then((m) => m.AddKidPage),
+          import('./pages/kid-form/kid-form.page').then((m) => m.KidFormPage),
         canActivate: [authGuard],
       },
       {

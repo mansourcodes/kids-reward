@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddKidPage } from './add-kid.page';
+import { KidFormPage } from './kid-form.page';
 
-describe('AddKidPage', () => {
-  let component: AddKidPage;
-  let fixture: ComponentFixture<AddKidPage>;
+describe('KidFormPage', () => {
+  let component: KidFormPage;
+  let fixture: ComponentFixture<KidFormPage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddKidPage);
+    fixture = TestBed.createComponent(KidFormPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
