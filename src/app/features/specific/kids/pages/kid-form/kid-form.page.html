@@ -14,6 +14,8 @@
       <ion-input formControlName="name" type="text"></ion-input>
     </ion-item>
 
+    @if(is_edit_mode == false || currentKid?.profile_picture_url == null){
+
     <app-image-uploader
       (onImageCropped)="handleCroppedImage($event)"
     ></app-image-uploader>
@@ -21,6 +23,13 @@
     @if(croppedImageUrl){
     <ion-img [src]="croppedImageUrl"></ion-img>
     }
+    <!--  -->
+    }
+    <!--  -->
+    @if(is_edit_mode == true && currentKid?.profile_picture_url != null){
+    <ion-img [src]="currentKid?.profile_picture_url"></ion-img>
+    }
+
     <ion-button
       type="submit"
       expand="block"

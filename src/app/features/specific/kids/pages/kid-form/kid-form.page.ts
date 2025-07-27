@@ -29,6 +29,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { ImageUploaderComponent } from 'src/app/shared/components/image-uploader/image-uploader.component';
+import { Kid } from '../../services/kids.service';
 
 @Component({
   selector: 'app-kid-form',
@@ -60,6 +61,7 @@ export class KidFormPage {
 
   kidId: string | null = null;
   addKidForm: FormGroup;
+  currentKid: Kid | undefined = undefined;
   croppedImageFile: File | null = null;
   croppedImageUrl: string | ArrayBuffer | null = null;
   loading = false;
@@ -82,16 +84,17 @@ export class KidFormPage {
       this.is_edit_mode = true;
       console.log(this.kidsStore.kids());
 
-      const currentKid = this.kidsStore
+      this.currentKid = this.kidsStore
         .kids()
         .find((kid) => kid.id == this.kidId);
-      if (currentKid == undefined) {
+
+      if (this.currentKid == undefined) {
         console.error('Kid not found');
         this.router.navigate(['/tabs/kids-list']);
         return;
       }
       this.addKidForm.patchValue({
-        name: currentKid.name,
+        name: this.currentKid.name,
       });
     }
   }
