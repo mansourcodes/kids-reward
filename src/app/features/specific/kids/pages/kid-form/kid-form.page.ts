@@ -1,4 +1,10 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectorRef,
+  signal,
+  computed,
+} from '@angular/core';
 import { KidsStore } from '../../state/kids.store';
 import {
   FormGroup,
@@ -6,7 +12,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
   IonInput,
@@ -45,13 +51,17 @@ import {
 })
 export class KidFormPage {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private kidsStore = inject(KidsStore);
 
+  kidId: string | null = null;
   addKidForm: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   loading = false;
+
+  is_edit_mode = false;
 
   constructor() {
     this.addKidForm = new FormGroup({
@@ -60,6 +70,27 @@ export class KidFormPage {
         Validators.maxLength(50),
       ]),
     });
+  }
+
+  ionViewWillEnter() {
+    this.kidId = this.route.snapshot.paramMap.get('kidId');
+
+    if (this.kidId) {
+      this.is_edit_mode = true;
+      console.log(this.kidsStore.kids());
+
+      const currentKid = this.kidsStore
+        .kids()
+        .find((kid) => kid.id == this.kidId);
+      if (currentKid == undefined) {
+        console.error('Kid not found');
+        this.router.navigate(['/tabs/kids-list']);
+        return;
+      }
+      this.addKidForm.patchValue({
+        name: currentKid.name,
+      });
+    }
   }
 
   onFileSelected(event: Event) {

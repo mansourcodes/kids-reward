@@ -12,6 +12,12 @@ export const kidsRoutes: Routes = [
         canActivate: [authGuard],
       },
       {
+        path: 'kid-form/:kidId',
+        loadComponent: () =>
+          import('./pages/kid-form/kid-form.page').then((m) => m.KidFormPage),
+        canActivate: [authGuard],
+      },
+      {
         path: 'reward-add/:kidId',
         loadComponent: () =>
           import('./pages/reward-add/reward-add.page').then(
