@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RewardCardComponent } from '../reward-card/reward-card.component';
-import { Kid } from 'src/app/core/services/kids.service';
+import { Kid } from 'src/app/features/specific/kids/services/kids.service';
 
 @Component({
   selector: 'app-kid-card',

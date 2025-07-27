@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { supabase } from './supabase.client';
+import { supabase } from '../supabase/supabase.client';
 import { App } from '@capacitor/app';
 import { Browser } from '@capacitor/browser';
 

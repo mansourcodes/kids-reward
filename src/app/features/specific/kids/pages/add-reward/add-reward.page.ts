@@ -21,8 +21,8 @@ import {
   IonSelect,
   IonSelectOption,
 } from '@ionic/angular/standalone';
-import { KidsStore } from 'src/app/core/kids.store';
-import { Reward } from 'src/app/core/services/reward.service';
+import { KidsStore } from 'src/app/features/specific/kids/state/kids.store';
+import { Reward } from 'src/app/features/specific/kids/services/reward.service';
 
 @Component({
   selector: 'app-add-reward',

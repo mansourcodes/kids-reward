@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { KidsStore } from '../../../core/kids.store';
+import { KidsStore } from '../../state/kids.store';
 import {
   IonHeader,
   IonToolbar,
@@ -15,7 +15,7 @@ import {
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { KidCardComponent } from '../components/kid-card/kid-card.component';
+import { KidCardComponent } from '../../components/kid-card/kid-card.component';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 

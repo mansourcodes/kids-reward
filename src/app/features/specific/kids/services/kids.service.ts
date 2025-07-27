@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { supabase } from './supabase.client';
+import { AuthService } from '../../../../core/services/auth.service';
+import { supabase } from '../../../../core/supabase/supabase.client';
 import { Reward } from './reward.service';
 
 export interface Kid {

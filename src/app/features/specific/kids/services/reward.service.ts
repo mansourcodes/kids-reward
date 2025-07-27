@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { supabase } from './supabase.client';
-import { AuthService } from './auth.service';
+import { supabase } from '../../../../core/supabase/supabase.client';
+import { AuthService } from '../../../../core/services/auth.service';
 
 export interface Reward {
   id: string;

@@ -1,9 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { KidsService } from './services/kids.service';
-import { RewardService } from './services/reward.service';
-import { AuthService } from './services/auth.service';
-import { Kid } from './services/kids.service';
-import { Reward } from './services/reward.service';
+import { KidsService } from '../services/kids.service';
+import { RewardService } from '../services/reward.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Kid } from '../services/kids.service';
+import { Reward } from '../services/reward.service';
 
 @Injectable({
   providedIn: 'root',

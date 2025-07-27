@@ -7,11 +7,16 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: '',
+        redirectTo: 'kids-list',
+        pathMatch: 'full',
+      },
+      {
         path: 'kids-list',
         loadComponent: () =>
-          import('../../features/app-specific/kids-list/kids-list.page').then(
-            (m) => m.KidsListPage
-          ),
+          import(
+            '../../features/specific/kids/pages/kids-list/kids-list.page'
+          ).then((m) => m.KidsListPage),
       },
 
       {
@@ -28,16 +33,11 @@ export const routes: Routes = [
             '../../features/common/settings/dashboard/dashboard.page'
           ).then((m) => m.DashboardPage),
       },
-      {
-        path: '',
-        redirectTo: '/tabs/kids-list',
-        pathMatch: 'full',
-      },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/kids-list',
+    redirectTo: 'tabs',
     pathMatch: 'full',
   },
 ];

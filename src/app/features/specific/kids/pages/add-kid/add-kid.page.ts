@@ -1,5 +1,5 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
-import { KidsStore } from '../../../core/kids.store';
+import { KidsStore } from '../../state/kids.store';
 import {
   FormGroup,
   FormControl,

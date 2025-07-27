@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IonChip, IonLabel } from '@ionic/angular/standalone';
-import { Reward } from 'src/app/core/services/reward.service';
+import { Reward } from 'src/app/features/specific/kids/services/reward.service';
 
 @Component({
   selector: 'app-reward-card',
