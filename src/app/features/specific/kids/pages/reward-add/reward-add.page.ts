@@ -25,9 +25,9 @@ import { KidsStore } from 'src/app/features/specific/kids/state/kids.store';
 import { Reward } from 'src/app/features/specific/kids/services/reward.service';
 
 @Component({
-  selector: 'app-add-reward',
-  templateUrl: 'add-reward.page.html',
-  styleUrls: ['add-reward.page.scss'],
+  selector: 'app-reward-add',
+  templateUrl: 'reward-add.page.html',
+  styleUrls: ['reward-add.page.scss'],
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -46,7 +46,7 @@ import { Reward } from 'src/app/features/specific/kids/services/reward.service';
     IonSelectOption,
   ],
 })
-export class AddRewardPage {
+export class RewardAddPage {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private kidsStore = inject(KidsStore);

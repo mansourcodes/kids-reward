@@ -39,6 +39,6 @@ export class KidCardComponent {
   }
 
   addReward() {
-    this.router.navigate(['/add-reward', this.kid.id]);
+    this.router.navigate(['/kids/reward-add', this.kid.id]);
   }
 }

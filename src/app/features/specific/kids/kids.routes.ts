@@ -12,10 +12,10 @@ export const kidsRoutes: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: 'add-reward/:kidId',
+        path: 'reward-add/:kidId',
         loadComponent: () =>
-          import('./pages/add-reward/add-reward.page').then(
-            (m) => m.AddRewardPage
+          import('./pages/reward-add/reward-add.page').then(
+            (m) => m.RewardAddPage
           ),
         canActivate: [authGuard],
       },
