@@ -17,6 +17,12 @@
         <img [src]="getProfilePictureUrl(kid)" />
       </ion-avatar>
       <ion-label>{{ kid.name }}</ion-label>
+      <ion-button
+        slot="end"
+        (click)="askToDelete(kid);$event.stopImmediatePropagation(); $event.preventDefault()"
+      >
+        Delete
+      </ion-button>
     </ion-item>
     }
   </ion-list>

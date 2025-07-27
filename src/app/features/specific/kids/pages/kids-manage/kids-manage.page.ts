@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AvatarUrlService } from 'src/app/shared/services/avatar-url.service';
 import { SafeUrl } from '@angular/platform-browser';
 import { Kid } from '../../services/kids.service';
+import { AlertController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-kids-manage',
@@ -15,7 +16,7 @@ import { Kid } from '../../services/kids.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
-export class KidsManagePage implements OnInit {
+export class KidsManagePage {
   private kidsStore = inject(KidsStore);
   private avatarUrlService = inject(AvatarUrlService);
 
@@ -23,7 +24,7 @@ export class KidsManagePage implements OnInit {
   kids = this.kidsStore.kids;
   loading = this.kidsStore.loading;
 
-  constructor() {}
+  constructor(private alertController: AlertController) {}
 
   getProfilePictureUrl(kid: Kid): SafeUrl {
     return this.avatarUrlService.getAvatarUrl(
@@ -32,7 +33,26 @@ export class KidsManagePage implements OnInit {
     );
   }
 
-  async ngOnInit() {
-    // await this.kidsStore.loadKids();
+  async askToDelete(kid: Kid) {
+    const alert = await this.alertController.create({
+      header: 'Delete Kid',
+      subHeader: 'Are you sure you want to delete this kid?',
+      message: 'This action cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            // this.kidsStore.deleteKid(kid);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }
