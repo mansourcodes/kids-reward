@@ -20,10 +20,10 @@ export const kidsRoutes: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: 'manage-kids',
+        path: 'kids-manage',
         loadComponent: () =>
-          import('./pages/manage-kids/manage-kids.page').then(
-            (m) => m.ManageKidsPage
+          import('./pages/kids-manage/kids-manage.page').then(
+            (m) => m.KidsManagePage
           ),
       },
     ],

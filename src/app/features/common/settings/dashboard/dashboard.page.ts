@@ -9,12 +9,18 @@ import {
   peopleOutline,
   personOutline,
 } from 'ionicons/icons';
+import { SettingsListComponent } from 'src/app/features/specific/components/settings-list/settings-list.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
-  imports: [IonicModule, RouterModule, ProfileCardComponent],
+  imports: [
+    IonicModule,
+    RouterModule,
+    ProfileCardComponent,
+    SettingsListComponent,
+  ],
 })
 export class DashboardPage {
   constructor() {
