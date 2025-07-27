@@ -3,6 +3,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { supabase } from '../../../../core/supabase/supabase.client';
 import { Reward } from './reward.service';
 import { User } from '@supabase/supabase-js';
+import { StorageService } from '../../../../core/services/storage.service';
 
 export interface Kid {
   id: string;
@@ -21,7 +22,10 @@ interface KidProfile {
   providedIn: 'root',
 })
 export class KidsService {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private storageService: StorageService
+  ) {}
 
   async addKid(kid: KidProfile): Promise<Kid> {
     const session = await this.authService.getSession();
@@ -32,10 +36,10 @@ export class KidsService {
 
     let imageUrl: string | null = null;
     if (kid.profile_picture_file) {
-      imageUrl = await this.uploadImage(
+      imageUrl = await this.storageService.uploadImage(
         kid.profile_picture_file,
         'kid-profiles',
-        user
+        user.id
       );
     }
 
@@ -88,10 +92,10 @@ export class KidsService {
 
     let imageUrl: string | null = null;
     if (profile_picture_file) {
-      imageUrl = await this.uploadImage(
+      imageUrl = await this.storageService.uploadImage(
         profile_picture_file,
         'kid-profiles',
-        user
+        user.id
       );
     }
 
@@ -109,30 +113,5 @@ export class KidsService {
     if (!data || data.length === 0) throw new Error('Failed to create kid');
 
     return data[0] as Kid;
-  }
-
-  async uploadImage(
-    file: File,
-    bucketName: string,
-    user: User
-  ): Promise<string | null> {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}/${Math.random()}.${fileExt}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from(bucketName)
-      .upload(`${fileName}`, file, {
-        cacheControl: '3600',
-      });
-
-    if (uploadError) throw uploadError;
-
-    const { data: urlData } = supabase.storage
-      .from(bucketName)
-      .getPublicUrl(`${fileName}`);
-
-    const imageUrl = urlData?.publicUrl ?? null;
-
-    return imageUrl;
   }
 }
