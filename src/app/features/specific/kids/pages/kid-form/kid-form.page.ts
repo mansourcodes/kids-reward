@@ -82,7 +82,6 @@ export class KidFormPage {
 
     if (this.kidId) {
       this.is_edit_mode = true;
-      console.log(this.kidsStore.kids());
 
       this.currentKid = this.kidsStore
         .kids()
@@ -119,10 +118,22 @@ export class KidFormPage {
     this.loading = true;
     try {
       // Pass the selected file to the store
-      await this.kidsStore.addKid({
-        name: this.addKidForm.value.name,
-        profile_picture_file: this.croppedImageFile ?? undefined,
-      });
+
+      if (this.is_edit_mode) {
+        // Update the kid
+        await this.kidsStore.updateKid(
+          {
+            ...this.currentKid,
+            name: this.addKidForm.value.name,
+          } as Kid,
+          this.croppedImageFile ?? undefined
+        );
+      } else {
+        await this.kidsStore.addKid({
+          name: this.addKidForm.value.name,
+          profile_picture_file: this.croppedImageFile ?? undefined,
+        });
+      }
       this.router.navigate(['/tabs/kids-list']);
     } catch (error) {
       console.error('Error adding kid:', error as Error);

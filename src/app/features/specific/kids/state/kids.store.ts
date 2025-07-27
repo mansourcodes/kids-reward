@@ -46,6 +46,23 @@ export class KidsStore {
     }
   }
 
+  async updateKid(kid: Kid, profile_picture_file?: File) {
+    this.loading.set(true);
+    try {
+      const updatedKid = await this.kidsService.updateKid(
+        kid,
+        profile_picture_file
+      );
+      this.kids.update((kids) =>
+        kids.map((k) => (k.id == kid.id ? { ...updatedKid } : k))
+      );
+    } catch (error) {
+      console.error('Error updating kid:', error);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
   async addReward(reward: Omit<Reward, 'id' | 'user_id' | 'created_at'>) {
     try {
       const newReward = await this.rewardService.addReward(reward);

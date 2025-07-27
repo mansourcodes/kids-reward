@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { supabase } from '../../../../core/supabase/supabase.client';
 import { Reward } from './reward.service';
+import { User } from '@supabase/supabase-js';
 
 export interface Kid {
   id: string;
@@ -30,24 +31,12 @@ export class KidsService {
     const user = session.data.session.user;
 
     let imageUrl: string | null = null;
-
     if (kid.profile_picture_file) {
-      const fileExt = kid.profile_picture_file.name.split('.').pop();
-      const fileName = `${user.id}/${Math.random()}.${fileExt}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('kid-profiles')
-        .upload(`${fileName}`, kid.profile_picture_file, {
-          cacheControl: '3600',
-        });
-
-      if (uploadError) throw uploadError;
-
-      const { data: urlData } = supabase.storage
-        .from('kid-profiles')
-        .getPublicUrl(`${fileName}`);
-
-      imageUrl = urlData?.publicUrl ?? null;
+      imageUrl = await this.uploadImage(
+        kid.profile_picture_file,
+        'kid-profiles',
+        user
+      );
     }
 
     const { data, error } = await supabase.from('kids').insert({
@@ -90,15 +79,60 @@ export class KidsService {
     return data as Kid;
   }
 
-  async updateKid(kid: Kid): Promise<void> {
-    const { error } = await supabase
+  async updateKid(kid: Kid, profile_picture_file?: File): Promise<Kid> {
+    const session = await this.authService.getSession();
+    if (!session || !session.data || !session.data.session) {
+      throw new Error('User not authenticated');
+    }
+    const user = session.data.session.user;
+
+    let imageUrl: string | null = null;
+    if (profile_picture_file) {
+      imageUrl = await this.uploadImage(
+        profile_picture_file,
+        'kid-profiles',
+        user
+      );
+    }
+
+    const { data, error } = await supabase
       .from('kids')
       .update({
         name: kid.name,
-        profile_picture_url: kid.profile_picture_url,
+        profile_picture_url: imageUrl ?? kid.profile_picture_url,
       })
-      .eq('id', kid.id);
+      .eq('id', kid.id)
+      .select();
 
     if (error) throw error;
+
+    if (!data || data.length === 0) throw new Error('Failed to create kid');
+
+    return data[0] as Kid;
+  }
+
+  async uploadImage(
+    file: File,
+    bucketName: string,
+    user: User
+  ): Promise<string | null> {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${user.id}/${Math.random()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload(`${fileName}`, file, {
+        cacheControl: '3600',
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabase.storage
+      .from(bucketName)
+      .getPublicUrl(`${fileName}`);
+
+    const imageUrl = urlData?.publicUrl ?? null;
+
+    return imageUrl;
   }
 }
