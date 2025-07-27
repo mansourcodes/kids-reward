@@ -38,7 +38,7 @@
       @if (loading) {
       <ion-spinner></ion-spinner>
       } @else {
-      <span>Add Child</span>
+      <span>{{is_edit_mode ? 'Edit' : 'Add'}} Child</span>
       }
     </ion-button>
   </form>
