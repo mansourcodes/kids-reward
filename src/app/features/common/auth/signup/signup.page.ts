@@ -5,40 +5,42 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-signup',
-  imports: [CommonModule, IonicModule, FormsModule],
   templateUrl: './signup.page.html',
+  imports: [CommonModule, IonicModule, FormsModule],
 })
 export class SignupPage {
   email = '';
   password = '';
   loading = false;
-  error = '';
-  success = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private storageService: StorageService
+    private errorHandler: ErrorHandlerService
   ) {}
 
   async signup() {
     this.loading = true;
-    this.error = '';
-    this.success = '';
-
     const { error } = await this.authService.signUp(this.email, this.password);
     this.loading = false;
 
     if (error) {
-      this.error = error.message;
+      this.errorHandler.handleError(error);
     } else {
-      // send OTP email
-      const result = await this.authService.sendOtp(this.email);
+      this.sendOtp();
+    }
+  }
 
-      // Redirect to OTP verification
+  private async sendOtp() {
+    const { error } = await this.authService.sendOtp(this.email);
+
+    if (error) {
+      this.errorHandler.handleError(error);
+    } else {
       this.router.navigate(['/auth/otp-verification'], {
         queryParams: { email: this.email, mode: 'signup' },
       });

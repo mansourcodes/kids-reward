@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -21,34 +22,21 @@ export class ResetPasswordPage {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private alertCtrl: AlertController
+    private errorHandler: ErrorHandlerService
   ) {}
 
   async resetPassword() {
     if (this.newPassword !== this.confirmPassword) {
-      this.showAlert('Passwords do not match.');
+      this.errorHandler.handleError('Passwords do not match.');
       return;
     }
 
     const { error } = await this.authService.resetPassword(this.newPassword);
 
     if (error) {
-      if (error) {
-        this.showAlert(error.message || 'Something went wrong.');
-      } else {
-        this.showAlert('Password reset successful.', true);
-      }
-    }
-  }
-
-  async showAlert(message: string, success: boolean = false) {
-    const alert = await this.alertCtrl.create({
-      header: success ? 'Success' : 'Error',
-      message,
-      buttons: ['OK'],
-    });
-    await alert.present();
-    if (success) {
+      this.errorHandler.handleError(error);
+    } else {
+      this.errorHandler.handleError('Password reset successful.');
       this.router.navigate(['/auth/profile']);
     }
   }

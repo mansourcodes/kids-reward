@@ -25,9 +25,6 @@
       <ion-button expand="block" (click)="signup()" [disabled]="loading">
         {{ loading ? 'Creating account...' : 'Sign Up' }}
       </ion-button>
-
-      <ion-text color="success" *ngIf="success">{{ success }}</ion-text>
-      <ion-text color="danger" *ngIf="error">{{ error }}</ion-text>
     </ion-card-content>
   </ion-card>
 </ion-content>

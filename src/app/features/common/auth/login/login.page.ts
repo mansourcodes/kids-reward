@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AlertController } from '@ionic/angular/standalone';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,12 @@ import { AlertController } from '@ionic/angular/standalone';
 export class LoginPage {
   email = '';
   password = '';
-  error = '';
   loading = false;
 
   constructor(
     public auth: AuthService,
     private router: Router,
-    private alertController: AlertController
+    private errorHandler: ErrorHandlerService
   ) {}
 
   async login() {
@@ -29,16 +29,7 @@ export class LoginPage {
     this.loading = false;
 
     if (error) {
-      this.error = error.message;
-      this.alertController
-        .create({
-          header: 'Error',
-          message: error.message,
-          buttons: ['OK'],
-        })
-        .then((alert) => alert.present());
-
-      return;
+      this.errorHandler.handleError(error);
     } else if (data.user) {
       this.router.navigateByUrl('/home');
     }
