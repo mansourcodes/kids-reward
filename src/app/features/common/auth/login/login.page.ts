@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { AlertController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-login',
@@ -16,16 +17,29 @@ export class LoginPage {
   error = '';
   loading = false;
 
-  constructor(public auth: AuthService, private router: Router) {}
+  constructor(
+    public auth: AuthService,
+    private router: Router,
+    private alertController: AlertController
+  ) {}
 
   async login() {
     this.loading = true;
-    const { error } = await this.auth.signIn(this.email, this.password);
+    const { data, error } = await this.auth.signIn(this.email, this.password);
     this.loading = false;
 
     if (error) {
       this.error = error.message;
-    } else {
+      this.alertController
+        .create({
+          header: 'Error',
+          message: error.message,
+          buttons: ['OK'],
+        })
+        .then((alert) => alert.present());
+
+      return;
+    } else if (data.user) {
       this.router.navigateByUrl('/home');
     }
   }
