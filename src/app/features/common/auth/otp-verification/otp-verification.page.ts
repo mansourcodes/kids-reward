@@ -12,6 +12,7 @@ import { AlertController } from '@ionic/angular/standalone';
   templateUrl: './otp-verification.page.html',
 })
 export class OtpVerificationPage {
+  mode = 'signup';
   email = '';
   otp = '';
   loading = false;
@@ -26,6 +27,7 @@ export class OtpVerificationPage {
 
   async ionViewWillEnter() {
     this.email = this.route.snapshot.queryParamMap.get('email') || '';
+    this.mode = this.route.snapshot.queryParamMap.get('mode') || 'signup';
   }
 
   async verifyOtp() {
@@ -36,7 +38,12 @@ export class OtpVerificationPage {
       // verification
       if (this.otp) {
         const result = await this.authService.verifyOtp(this.email, this.otp);
-        this.router.navigate(['/home']);
+
+        if (this.mode === 'reset-password') {
+          this.router.navigate(['/auth/reset-password']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       } else {
         throw new Error('Invalid OTP code. Please try again.');
       }

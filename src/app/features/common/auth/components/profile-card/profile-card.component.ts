@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from '@supabase/supabase-js';
 import { AlertController } from '@ionic/angular';
@@ -10,10 +10,11 @@ import { AlertController } from '@ionic/angular';
   selector: 'app-profile-card',
   templateUrl: './profile-card.component.html',
   styleUrls: ['./profile-card.component.scss'],
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, RouterModule],
 })
 export class ProfileCardComponent implements OnInit {
   @Input() showLogout = false;
+  @Input() showResetPassword = false;
 
   user: User | null = null;
 

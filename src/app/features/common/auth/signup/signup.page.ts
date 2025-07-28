@@ -40,7 +40,7 @@ export class SignupPage {
 
       // Redirect to OTP verification
       this.router.navigate(['/auth/otp-verification'], {
-        queryParams: { email: this.email },
+        queryParams: { email: this.email, mode: 'signup' },
       });
     }
   }

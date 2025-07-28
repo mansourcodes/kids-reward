@@ -28,6 +28,18 @@ export const authRoutes: Routes = [
           ),
       },
       {
+        path: 'otp-login',
+        loadComponent: () =>
+          import('./otp-login/otp-login.page').then((m) => m.OtpLoginPage),
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('./reset-password/reset-password.page').then(
+            (m) => m.ResetPasswordPage
+          ),
+      },
+      {
         path: 'profile',
         loadComponent: () =>
           import('./profile/profile.page').then((m) => m.ProfilePage),

@@ -1,0 +1,18 @@
+<ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-input [(ngModel)]="email" label="Email" type="email"></ion-input>
+
+      <ion-button (click)="requestOtp()" expand="block" [disabled]="loading">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -58,32 +58,26 @@ export class AuthService {
   }
 
   async sendOtp(email: string) {
-    // Send OTP
-    const { data, error } = await supabase.auth.signInWithOtp({
+    return await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        // Optional: set to false if you don't want to automatically create a new user
         shouldCreateUser: false,
       },
     });
-
-    console.log('send otp', { data, error });
-
-    if (error) throw error;
-
-    return data;
   }
+
+  async resetPassword(new_password: string) {
+    return await supabase.auth.updateUser({
+      password: new_password,
+    });
+  }
+
   async verifyOtp(email: string, otp: string) {
-    // Verify OTP
-    const { data, error } = await supabase.auth.verifyOtp({
+    return await supabase.auth.verifyOtp({
       email: email,
       token: otp,
       type: 'email',
     });
-
-    console.log('verify otp', { data, error });
-
-    return { data, error };
   }
 
   async deleteAccount(user: User) {
