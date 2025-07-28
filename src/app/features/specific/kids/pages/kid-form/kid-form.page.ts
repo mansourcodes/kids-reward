@@ -30,6 +30,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ImageUploaderComponent } from 'src/app/shared/components/image-uploader/image-uploader.component';
 import { Kid } from '../../services/kids.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-kid-form',
@@ -58,6 +59,7 @@ export class KidFormPage {
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private kidsStore = inject(KidsStore);
+  private errorHandler = inject(ErrorHandlerService);
 
   kidId: string | null = null;
   addKidForm: FormGroup;
@@ -88,7 +90,7 @@ export class KidFormPage {
         .find((kid) => kid.id == this.kidId);
 
       if (this.currentKid == undefined) {
-        console.error('Kid not found');
+        this.errorHandler.handleError('Kid not found');
         this.router.navigate(['/tabs/kids-list']);
         return;
       }
@@ -136,8 +138,7 @@ export class KidFormPage {
       }
       this.router.navigate(['/tabs/kids-list']);
     } catch (error) {
-      console.error('Error adding kid:', error as Error);
-      this.loading = false;
+      this.errorHandler.handleError(error);
     } finally {
       this.loading = false;
     }

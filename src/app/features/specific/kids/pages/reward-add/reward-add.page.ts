@@ -23,6 +23,7 @@ import {
 } from '@ionic/angular/standalone';
 import { KidsStore } from 'src/app/features/specific/kids/state/kids.store';
 import { Reward } from 'src/app/features/specific/kids/services/reward.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-reward-add',
@@ -50,6 +51,7 @@ export class RewardAddPage {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private kidsStore = inject(KidsStore);
+  private errorHandler = inject(ErrorHandlerService);
 
   kidId: string | null = null;
   addRewardForm: FormGroup;
@@ -83,7 +85,7 @@ export class RewardAddPage {
       await this.kidsStore.addReward(reward);
       this.router.navigate(['/tabs/kids-list']);
     } catch (error) {
-      console.error('Error adding reward:', error);
+      this.errorHandler.handleError(error);
       this.loading = false;
     }
   }

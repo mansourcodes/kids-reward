@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { supabase } from '../supabase/supabase.client';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
+  private errorHandler = inject(ErrorHandlerService);
+
   async uploadImage(
     file: File,
     bucketName: string,
@@ -34,7 +37,7 @@ export class StorageService {
         .from(bucketName)
         .remove([fileName]);
     } catch (error) {
-      console.error('Error deleting image:', error);
+      this.errorHandler.handleError(error);
     }
   }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-delete-account',
@@ -12,6 +13,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class DeleteAccountPage implements OnInit {
   private authService = inject(AuthService);
+  private errorHandler = inject(ErrorHandlerService);
 
   constructor(public alertController: AlertController) {}
 
@@ -48,7 +50,7 @@ export class DeleteAccountPage implements OnInit {
                   this.authService.signOut();
                 })
                 .catch((error) => {
-                  console.error(error);
+                  this.errorHandler.handleError(error);
                 });
             } else {
               this.presentFail();

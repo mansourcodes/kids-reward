@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -16,6 +22,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 import { ImageCropperComponent, ImageTransform } from 'ngx-image-cropper';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-image-uploader',
@@ -34,6 +41,8 @@ import { ImageCropperComponent, ImageTransform } from 'ngx-image-cropper';
   ],
 })
 export class ImageUploaderComponent {
+  private errorHandler = inject(ErrorHandlerService);
+
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
@@ -58,18 +67,21 @@ export class ImageUploaderComponent {
   }
 
   confirm() {
-    this.imageCropper.crop('blob')?.then((blob) => {
-      if (blob?.blob) {
-        const imageFile = new File([blob.blob], 'image.jpg', {
-          type: blob.blob.type,
-          lastModified: Date.now(),
-        });
-        // Do something with imageFile
-        this.modal.dismiss(imageFile, 'confirm');
-      } else {
-        console.error('blob.blob is null or undefined');
-      }
-    });
+    try {
+      this.imageCropper.crop('blob')?.then((blob) => {
+        if (blob?.blob) {
+          const imageFile = new File([blob.blob], 'image.jpg', {
+            type: blob.blob.type,
+            lastModified: Date.now(),
+          });
+          this.modal.dismiss(imageFile, 'confirm');
+        } else {
+          this.errorHandler.handleError('blob.blob is null or undefined');
+        }
+      });
+    } catch (error) {
+      this.errorHandler.handleError(error);
+    }
   }
 
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {

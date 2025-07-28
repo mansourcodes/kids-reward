@@ -4,6 +4,7 @@ import { RewardService } from '../services/reward.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Kid } from '../services/kids.service';
 import { Reward } from '../services/reward.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class KidsStore {
   private kidsService = inject(KidsService);
   private rewardService = inject(RewardService);
   private authService = inject(AuthService);
+  private errorHandler = inject(ErrorHandlerService);
 
   // Signal to store kids data
   kids = signal<Kid[]>([]);
@@ -28,7 +30,7 @@ export class KidsStore {
       const kids = await this.kidsService.getKidsByUser(user.id);
       this.kids.set(kids);
     } catch (error) {
-      console.error('Error loading kids:', error);
+      this.errorHandler.handleError(error);
     } finally {
       this.loading.set(false);
     }
@@ -40,7 +42,7 @@ export class KidsStore {
       const newKid = await this.kidsService.addKid(kid);
       this.kids.update((kids) => [...kids, newKid]);
     } catch (error) {
-      console.error('Error adding kid:', error);
+      this.errorHandler.handleError(error);
     } finally {
       this.loading.set(false);
     }
@@ -57,7 +59,7 @@ export class KidsStore {
         kids.map((k) => (k.id == kid.id ? { ...updatedKid } : k))
       );
     } catch (error) {
-      console.error('Error updating kid:', error);
+      this.errorHandler.handleError(error);
     } finally {
       this.loading.set(false);
     }
@@ -69,7 +71,7 @@ export class KidsStore {
       await this.kidsService.deleteKid(kid);
       this.kids.update((kids) => kids.filter((k) => k.id != kid.id));
     } catch (error) {
-      console.error('Error deleting kid:', error);
+      this.errorHandler.handleError(error);
     } finally {
       this.loading.set(false);
     }
@@ -78,7 +80,6 @@ export class KidsStore {
   async addReward(reward: Omit<Reward, 'id' | 'user_id' | 'created_at'>) {
     try {
       const newReward = await this.rewardService.addReward(reward);
-      console.log('newReward:', newReward);
 
       this.kids.update((kids) =>
         kids.map((kid) =>
@@ -87,9 +88,8 @@ export class KidsStore {
             : kid
         )
       );
-      console.log('kids', this.kids());
     } catch (error) {
-      console.error('Error adding reward:', error);
+      this.errorHandler.handleError(error);
     }
   }
 }
