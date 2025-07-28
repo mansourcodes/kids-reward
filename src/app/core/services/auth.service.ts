@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { supabase } from '../supabase/supabase.client';
 import { App } from '@capacitor/app';
 import { Browser } from '@capacitor/browser';
+import { User, UserResponse } from '@supabase/supabase-js';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -44,9 +46,45 @@ export class AuthService {
     return supabase.auth.getSession();
   }
 
+  async getUser() {
+    const { data: userData } = await supabase.auth.getUser();
+    return userData.user ?? null;
+  }
+
   onAuthStateChanged(callback: (session: any) => void) {
     return supabase.auth.onAuthStateChange((_event, session) => {
       callback(session);
     });
+  }
+
+  async deleteAccount(user: User) {
+    // Delete from storage
+    const { data: files } = await supabase.storage
+      .from('kids-profiles')
+      .list(`${user.id}`);
+    const filePaths = files?.map((file) => `${user.id}/${file.name}`) ?? [];
+    if (filePaths.length !== 0) {
+      await supabase.storage.from('kids-profiles').remove(filePaths);
+    }
+    // Delete from related tables
+    await supabase.from('rewards').delete().eq('user_id', user.id);
+    await supabase.from('kids').delete().eq('user_id', user.id);
+
+    // Delete user
+    const session = await this.getSession();
+    if (!session || !session.data || !session.data.session) {
+      throw new Error('User not authenticated');
+    }
+
+    const { data, error } = await supabase.functions.invoke('delete-user', {
+      body: { userId: user.id },
+    });
+
+    if (error) throw error;
+
+    return {
+      state: 'success',
+      error: null,
+    };
   }
 }

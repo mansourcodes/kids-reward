@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-delete-account',
@@ -10,6 +11,8 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule],
 })
 export class DeleteAccountPage implements OnInit {
+  private authService = inject(AuthService);
+
   constructor(public alertController: AlertController) {}
 
   ngOnInit() {}
@@ -33,9 +36,20 @@ export class DeleteAccountPage implements OnInit {
         },
         {
           text: 'Delete My Account',
-          handler: (data) => {
-            if (data.confirmText == 'Delete My Account') {
-              this.presentAskForLoginAgain();
+          handler: async (data) => {
+            if (data.confirmText === 'Delete My Account') {
+              const user = await this.authService.getUser();
+              if (!user) {
+                return;
+              }
+              this.authService
+                .deleteAccount(user)
+                .then(() => {
+                  this.authService.signOut();
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
             } else {
               this.presentFail();
             }
@@ -47,51 +61,14 @@ export class DeleteAccountPage implements OnInit {
     await alert.present();
   }
 
-  async presentAskForLoginAgain() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirm Authentication',
-      message: 'Please enter your email and password to confirm.',
-      inputs: [
-        {
-          name: 'email',
-          placeholder: 'Email',
-        },
-        {
-          name: 'password',
-          placeholder: 'Password',
-          type: 'password',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'primary',
-        },
-        {
-          text: 'Confirm',
-          handler: (data) => {
-            const email = data.email;
-            const password = data.password;
-            // TODO: Call API to confirm authentication
-            // TODO: Call API to delete account if authentication is confirmed
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
   async presentFail() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'ALERTS.DELETE_CANCELED_TITLE',
-      message: 'ALERTS.DELETE_CANCELED_MESSAGE',
+      header: 'Delete Failed',
+      message: 'Failed to delete account. Please try again.',
       buttons: [
         {
-          text: 'COMMON.OK',
+          text: 'OK',
         },
       ],
     });
