@@ -11,10 +11,10 @@ import { AuthService } from './core/services/auth.service';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.auth.onAuthStateChanged((session) => {
+    this.authService.onAuthStateChanged((session) => {
       const user = session?.user;
       this.router.navigateByUrl(user ? '/home' : '/auth/login');
     });

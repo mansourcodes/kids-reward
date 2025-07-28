@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { supabase } from '../supabase/supabase.client';
 import { ErrorHandlerService } from './error-handler.service';
 

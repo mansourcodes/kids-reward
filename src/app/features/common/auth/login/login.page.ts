@@ -18,14 +18,17 @@ export class LoginPage {
   loading = false;
 
   constructor(
-    public auth: AuthService,
+    public authService: AuthService,
     private router: Router,
     private errorHandler: ErrorHandlerService
   ) {}
 
   async login() {
     this.loading = true;
-    const { data, error } = await this.auth.signIn(this.email, this.password);
+    const { data, error } = await this.authService.signIn(
+      this.email,
+      this.password
+    );
     this.loading = false;
 
     if (error) {
