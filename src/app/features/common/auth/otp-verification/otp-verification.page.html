@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Verify Email</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="container">
+    <h1>Verify Your Email</h1>
+    <p>We've sent a OTP code to {{email}}. Please enter it below.</p>
+
+    <form (ngSubmit)="verifyOtp()">
+      <ion-item>
+        <ion-label position="floating">Verification Code</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="otp"
+          name="otp"
+          inputmode="numeric"
+          maxlength="6"
+          autocomplete="one-time-code"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        color="primary"
+        [disabled]="loading"
+      >
+        <ion-spinner *ngIf="loading"></ion-spinner>
+        <span *ngIf="!loading">Verify</span>
+      </ion-button>
+    </form>
+
+    <div class="resend-container">
+      <p>Didn't receive the code?</p>
+      <ion-button fill="clear" (click)="resendOtp()" [disabled]="loading">
+        Resend OTP
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

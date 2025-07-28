@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,11 @@ export class SignupPage {
   error = '';
   success = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private storageService: StorageService
+  ) {}
 
   async signup() {
     this.loading = true;
@@ -30,7 +35,13 @@ export class SignupPage {
     if (error) {
       this.error = error.message;
     } else {
-      this.success = 'Signup successful! Please check your email to confirm.';
+      // send OTP email
+      const result = await this.authService.sendOtp(this.email);
+
+      // Redirect to OTP verification
+      this.router.navigate(['/auth/otp-verification'], {
+        queryParams: { email: this.email },
+      });
     }
   }
 }
