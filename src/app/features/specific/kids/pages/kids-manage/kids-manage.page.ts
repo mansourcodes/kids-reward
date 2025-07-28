@@ -47,7 +47,7 @@ export class KidsManagePage {
         {
           text: 'Delete',
           handler: () => {
-            // this.kidsStore.deleteKid(kid);
+            this.kidsStore.deleteKid(kid);
           },
         },
       ],

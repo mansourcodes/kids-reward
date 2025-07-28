@@ -27,4 +27,14 @@ export class StorageService {
 
     return urlData?.publicUrl ?? null;
   }
+
+  async deleteImage(bucketName: string, fileName: string) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(bucketName)
+        .remove([fileName]);
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  }
 }

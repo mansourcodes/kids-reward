@@ -114,4 +114,28 @@ export class KidsService {
 
     return data[0] as Kid;
   }
+
+  async deleteKid(kid: Kid) {
+    //delete kid profile picture
+    if (kid.profile_picture_url) {
+      const parts = kid.profile_picture_url.split('/');
+      const fileName = `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
+
+      await this.storageService.deleteImage('kid-profiles', fileName);
+    }
+
+    // Delete rewards first
+    const { error } = await supabase
+      .from('rewards')
+      .delete()
+      .eq('kid_id', kid.id);
+    if (error) throw error;
+
+    // Then delete the kid
+    const { error: error2 } = await supabase
+      .from('kids')
+      .delete()
+      .eq('id', kid.id);
+    if (error2) throw error2;
+  }
 }

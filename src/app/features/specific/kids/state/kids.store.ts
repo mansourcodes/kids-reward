@@ -63,6 +63,18 @@ export class KidsStore {
     }
   }
 
+  async deleteKid(kid: Kid) {
+    this.loading.set(true);
+    try {
+      await this.kidsService.deleteKid(kid);
+      this.kids.update((kids) => kids.filter((k) => k.id != kid.id));
+    } catch (error) {
+      console.error('Error deleting kid:', error);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
   async addReward(reward: Omit<Reward, 'id' | 'user_id' | 'created_at'>) {
     try {
       const newReward = await this.rewardService.addReward(reward);
