@@ -1,4 +1,4 @@
-<ion-button expand="block">
+<ion-button expand="block" (click)="triggerFileInput()">
   <ion-icon name="add"></ion-icon>
   Upload Image
 </ion-button>
@@ -8,6 +8,7 @@
   type="file"
   accept="image/*"
   (change)="onImageSelected($event)"
+  style="display: none"
 />
 
 <ion-modal (willDismiss)="onWillDismiss($event)">

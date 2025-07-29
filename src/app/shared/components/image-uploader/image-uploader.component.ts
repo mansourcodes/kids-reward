@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   inject,
   Output,
@@ -45,6 +46,7 @@ export class ImageUploaderComponent {
 
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
   @Output() onImageCropped = new EventEmitter<File>();
 
@@ -52,6 +54,10 @@ export class ImageUploaderComponent {
 
   constructor() {
     addIcons({ add });
+  }
+
+  triggerFileInput() {
+    this.fileInputRef.nativeElement.click();
   }
 
   onImageSelected(event: Event) {
